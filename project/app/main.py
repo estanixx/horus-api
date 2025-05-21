@@ -1,29 +1,33 @@
 from fastapi import Depends, FastAPI
-from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
+from app.db import get_session
+from app.schemas.main import *
+from strawberry.fastapi import GraphQLRouter
+from typing import List
+import strawberry
 
-from app.db import get_session, init_db
-from app.models import Song, SongCreate
+async def get_context(
+    session: AsyncSession = Depends(get_session),
+) -> dict:
+    return {
+        'session': session,
+    }
+
+
+@strawberry.type
+class Query:
+    songs: List[Song]
+    
+schema = strawberry.Schema(Query)
+graphql_app = GraphQLRouter(
+    schema,
+    context_getter=get_context,
+)
 
 app = FastAPI()
-
+app.include_router(graphql_app, prefix="/graphql")
 
 @app.get("/ping")
 async def pong():
-    return {"ping": "pong!"}
+    return {"ping": "aaaa!"}
 
-
-@app.get("/songs", response_model=list[Song])
-async def get_songs(session: AsyncSession = Depends(get_session)):
-    result = await session.execute(select(Song))
-    songs = result.scalars().all()
-    return [Song(name=song.name, artist=song.artist, year=song.year, id=song.id) for song in songs]
-
-
-@app.post("/songs")
-async def add_song(song: SongCreate, session: AsyncSession = Depends(get_session)):
-    song = Song(name=song.name, artist=song.artist, year=song.year)
-    session.add(song)
-    await session.commit()
-    await session.refresh(song)
-    return song
