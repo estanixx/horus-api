@@ -1,33 +1,32 @@
-from fastapi import Depends, FastAPI
-from sqlmodel.ext.asyncio.session import AsyncSession
-from app.db import get_session
-from app.schemas.main import *
+# app/main.py
+from fastapi import FastAPI, Depends
 from strawberry.fastapi import GraphQLRouter
-from typing import List
-import strawberry
+import uvicorn
 
-async def get_context(
-    session: AsyncSession = Depends(get_session),
-) -> dict:
-    return {
-        'session': session,
-    }
+from app.graphql.schema import schema
+from app.database.session import get_session
+from app.graphql.context import get_context # Your custom context getter
+from app.core.config import settings # Assuming you have a config for app details
 
 
-@strawberry.type
-class Query:
-    songs: List[Song]
-    
-schema = strawberry.Schema(Query)
+app = FastAPI(title=settings.PROJECT_NAME)
+
+# Create tables on startup (only for development/initial setup, use Alembic for migrations in prod)
+
+
+# Setup GraphQL endpoint
 graphql_app = GraphQLRouter(
     schema,
-    context_getter=get_context,
+    context_getter=get_context, # Provide your context getter
+    graphiql=True # Enable GraphiQL UI for easy testing
 )
 
-app = FastAPI()
 app.include_router(graphql_app, prefix="/graphql")
 
-@app.get("/ping")
-async def pong():
-    return {"ping": "aaaa!"}
+@app.get("/health")
+async def health_check():
+    """Simple health check endpoint."""
+    return {"status": "ok"}
 
+# To run this app:
+# uvicorn app.main:app --reload

@@ -5,3 +5,4 @@ sqlmodel==0.0.8
 uvicorn==0.22.0
 strawberry-graphql[debug-server]==0.270.0
 strawberry-graphql[fastapi]==0.270.0
+python-dotenv==1.1.0
