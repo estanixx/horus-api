@@ -18,6 +18,9 @@ from app.models.base import BaseSQLModel
 # actually executed when the Python interpreter runs the code.
 if TYPE_CHECKING:
     from .camera import Camera
+    from.sensor import Sensor
+    from .gcp import GCP
+    from .automaticparams import AutomaticParams
 
 
 class Station(BaseSQLModel, table=True):
@@ -57,6 +60,10 @@ class Station(BaseSQLModel, table=True):
     # `back_populates="station"` connects this to the 'station' relationship in the Camera
     # model, ensuring that both sides of the relationship are kept in sync.
     cameras: List["Camera"] = Relationship(back_populates="station")
+    sensors: list["Sensor"] = Relationship(back_populates="station_ref")
+    gcps: list["GCP"] = Relationship(back_populates="station_ref")
+    automatic_params: list["AutomaticParams"] = Relationship(back_populates="station_ref")
+
 
     def __repr__(self):
         """Provides a developer-friendly string representation of the Station object."""

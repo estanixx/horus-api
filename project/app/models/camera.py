@@ -7,7 +7,7 @@ This module defines the `Camera` SQLModel class, which corresponds to the
 specifications and defines its relationship to the `Station` model.
 """
 
-from typing import Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 from sqlmodel import Field, Relationship
 from app.models.base import BaseSQLModel
 
@@ -17,6 +17,10 @@ from app.models.base import BaseSQLModel
 # actually executed when the Python interpreter runs the code.
 if TYPE_CHECKING:
     from .station import Station
+    from .calibration import Calibration
+    from .timestack import TimeStack
+    from .camerabyfusion import CameraByFusion
+    from .commonpoint import CommonPoint
 
 
 class Camera(BaseSQLModel, table=True):
@@ -49,6 +53,11 @@ class Camera(BaseSQLModel, table=True):
     # `back_populates="cameras"` connects this to the 'cameras' list in the Station
     # model, ensuring that both sides of the relationship are kept in sync.
     station: Optional["Station"] = Relationship(back_populates="cameras")
+
+    calibrations: List["Calibration"] = Relationship(back_populates="camera")
+    timestacks: List["TimeStack"] = Relationship(back_populates="camera")
+    fusions: List["CameraByFusion"] = Relationship(back_populates="camera")
+    common_points: List["CommonPoint"] = Relationship(back_populates="camera")
 
     def __repr__(self):
         """Provides a developer-friendly string representation of the Camera object."""
