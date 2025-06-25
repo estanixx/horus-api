@@ -1,3 +1,4 @@
+<<<<<<< HEAD:project/app/models/__init__.py
 from .station import Station
 from .camera import Camera
 from .imagetype import ImageType
@@ -42,3 +43,8 @@ __all__ = [
     "FusionParameter",
     "FusionValue"
     ]
+=======
+from .station import *
+from .camera import *
+__all__ = ["Station", "Camera", "Sensor"]
+>>>>>>> main:app/models/__init__.py
