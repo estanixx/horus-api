@@ -1,4 +1,3 @@
-# app/graphql/context.py
 """
 GraphQL Request Context Factory.
 
