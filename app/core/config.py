@@ -33,7 +33,7 @@ class Settings:
     def __init__(self):
         """Initializes the Settings instance by reading from environment variables."""
         # Read from environment variables, or use a default value if not set.
-        self.PROJECT_NAME: str = os.getenv("PROJECT_NAME", "My GraphQL FastAPI Project")
+        self.PROJECT_NAME: str = os.getenv("PROJECT_NAME", "Horus API")
         self.DATABASE_URL: str = os.getenv("DATABASE_URL", '')
 
         # You can add more settings here as needed.
