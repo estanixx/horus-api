@@ -11,7 +11,7 @@ class Sensor(BaseSQLModel, table=True):
         index=True,
         description="Unique sensor name"
     )
-    station_id: str = Field(
+    station_id: int = Field(
         foreign_key="station.id",
         description="id of the associated station"
     )

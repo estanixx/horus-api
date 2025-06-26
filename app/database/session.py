@@ -1,4 +1,3 @@
-# app/database/session.py
 """
 Database session management for the application.
 
@@ -15,12 +14,7 @@ from sqlmodel import SQLModel, create_engine
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlmodel.ext.asyncio.session import AsyncSession
 from app.core.config import settings
-# Load the database connection URL from environment variables for security and flexibility.
-# Example: "postgresql+asyncpg://user:password@host/dbname"
 
-# Create the asynchronous engine for interacting with the database.
-# echo=True will log all SQL statements issued, which is useful for debugging.
-# future=True enables SQLAlchemy 2.0 style usage.
 engine = AsyncEngine(create_engine(settings.DATABASE_URL, echo=True, future=True))
 
 
@@ -33,10 +27,6 @@ async def init_db():
     on application startup to set up the database schema.
     """
     async with engine.begin() as conn:
-        # The following line can be uncommented to drop all tables, useful for a clean reset during development.
-        # await conn.run_sync(SQLModel.metadata.drop_all)
-        
-        # This command creates all tables that inherit from SQLModel.
         await conn.run_sync(SQLModel.metadata.create_all)
 
 
@@ -51,15 +41,10 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
     Yields:
         An `AsyncSession` object for performing database operations.
     """
-    # Create a factory for asynchronous session objects.
-    # expire_on_commit=False is recommended for async sessions to prevent
-    # objects from being expired after a commit, allowing them to be used further.
+    
     async_session = sessionmaker(
         engine, class_=AsyncSession, expire_on_commit=False
     )
 
-    # The 'async with' block ensures the session is properly closed after use.
     async with async_session() as session:
-        # Yield the session to the dependent function. The code within the
-        # dependent function will execute here.
         yield session
