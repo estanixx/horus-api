@@ -7,12 +7,18 @@ if TYPE_CHECKING:
     from .measurementtype import MeasurementType
 
 
-class Sensor(SQLModel, table=True):
+class Sensor(BaseSQLModel, table=True):
     __tablename__ = "sensor"
 
     name: str = Field(
         sa_column=Column("name", String, nullable=False),
         primary_key=True,
+        unique=True,
+        index=True,
+        description="Unique sensor name"
+    )
+    station_id: int = Field(
+        foreign_key="station.id",
         description="id of the associated station"
     )
 

@@ -9,7 +9,7 @@ in a clean and managed way for each request.
 
 from typing import Dict, Any, AsyncGenerator
 
-from app.database.session import get_session  # Manages database session creation
+from app.database.session import get_session  
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 
@@ -26,10 +26,8 @@ async def get_context() -> AsyncGenerator[Dict[str, Any], None]:
         A dictionary containing the database session (`AsyncSession`) accessible
         via the key "db" in the resolver's `info.context`.
     """
-    # The `async for` loop works with an async generator dependency (`get_session`)
-    # to correctly manage the session's setup and teardown.
+    
     async for session in get_session():
-        # The yielded dictionary becomes the `info.context` in all resolvers.
         yield {"db": session}
 
 # If you prefer a synchronous context getter (e.g., if you're not using async/await for db session)

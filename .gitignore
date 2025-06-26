@@ -1,3 +1,77 @@
-__pycache__
-env
-.venv
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# VSCode settings
+.vscode/
+
+# Pytest
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyright
+pyrightconfig.json
+
+# Pydantic compiled models
+*.pyd
+
+# Logs
+*.log
+
+# Alembic
+alembic/versions/*.pyc
+alembic/versions/__pycache__/
+
+# Local env files
+.env
+.env.*
+
+# SQLite DBs or test databases
+*.sqlite3
+*.db
+
+# FastAPI static and temp files
+static/
+tmp/

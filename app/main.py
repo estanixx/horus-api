@@ -20,20 +20,6 @@ ALLOWED_ORIGINS = [
 ]
 
 
-def create_app() -> FastAPI:
-    """Factory function to create and configure the FastAPI application."""
-    app = FastAPI(
-        title=settings.PROJECT_NAME,
-        description="FastAPI backend with GraphQL endpoint"
-    )
-
-    configure_cors(app)
-    setup_graphql(app)
-    add_routes(app)
-
-    return app
-
-
 def configure_cors(app: FastAPI) -> None:
     """Configure CORS middleware for the application."""
     app.add_middleware(
@@ -62,6 +48,20 @@ def add_routes(app: FastAPI) -> None:
     async def health_check() -> dict:
         """Health check endpoint."""
         return {"status": "ok"}
+    
+    
+def create_app() -> FastAPI:
+    """Factory function to create and configure the FastAPI application."""
+    app = FastAPI(
+        title=settings.PROJECT_NAME,
+        description="FastAPI backend with GraphQL endpoint"
+    )
+
+    configure_cors(app)
+    setup_graphql(app)
+    add_routes(app)
+
+    return app
 
 
 # Main application instance
