@@ -1,25 +1,19 @@
 from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy import String, Integer
 from typing import Optional, List, TYPE_CHECKING
+from app.models.base import BaseSQLModel
 
 if TYPE_CHECKING:
     from .sensor import Sensor
     from .measurement import Measurement
 
 
-class MeasurementType(SQLModel, table=True):
-    __tablename__ = "measurementtype"
+class MeasurementType(BaseSQLModel, table=True):
+    __tablename__ = "measurement_type"
 
-    id: int = Field(
-        sa_column=Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
-    )
-
-    station: str = Field(
-        sa_column=Column("station", String, primary_key=True, nullable=False)
-    )
-
-    sensor: str = Field(
-        sa_column=Column("sensor", String, nullable=False)
+    sensor_id: int = Field(
+        foreign_key="sensor.id",
+        sa_column=Column("sensor", Integer, nullable=False)
     )
 
     paramname: str
@@ -35,11 +29,7 @@ class MeasurementType(SQLModel, table=True):
 
     description: Optional[str] = None
 
-    sensor_ref: Optional["Sensor"] = Relationship(
-        sa_relationship_kwargs={
-            "primaryjoin": "and_(MeasurementType.sensor==Sensor.name, MeasurementType.station==Sensor.station)",
-            "foreign_keys": "[MeasurementType.sensor, MeasurementType.station]"
-        },
+    sensor: Optional["Sensor"] = Relationship(
         back_populates="measurement_types"
     )
 

@@ -2,32 +2,32 @@ from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy import String, Integer, Float, ForeignKey
 from typing import Optional
 from typing import TYPE_CHECKING
-
+from app.models.base import TimestampsSQLModel
 if TYPE_CHECKING:
     from .calibrationparameter import CalibrationParameter
 
 
-class CalibrationValue(SQLModel, table=True):
-    __tablename__ = "calibrationvalue"
+class CalibrationValue(TimestampsSQLModel, table=True):
+    __tablename__ = "calibration_value"
 
-    idparam: str = Field(
+    id_param: int = Field(
         sa_column=Column(
-            "idparam",
-            String,
-            ForeignKey("calibrationparameter.id"),
+            "id_param",
+            Integer,
+            ForeignKey("calibration_parameter.id"),
             nullable=False,
             primary_key=True 
         )
     )
+    
+    
 
-    idcol: int = Field(
-        sa_column=Column("idcol", Integer, nullable=False),
-        primary_key=True
+    id_col: int = Field(
+        sa_column=Column("id_col", Integer, nullable=False, primary_key=True),
     )
 
-    idrow: int = Field(
-        sa_column=Column("idrow", Integer, nullable=False),
-        primary_key=True
+    id_row: int = Field(
+        sa_column=Column("id_row", Integer, nullable=False, primary_key=True),
     )
 
     value: float = Field(

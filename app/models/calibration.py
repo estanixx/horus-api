@@ -1,7 +1,8 @@
 from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String, DECIMAL, Float
+from sqlalchemy import String, DECIMAL, Integer, ForeignKey
 from typing import Optional, List
 from typing import TYPE_CHECKING
+from app.models.base import BaseSQLModel
 
 if TYPE_CHECKING:
     from .camera import Camera
@@ -9,21 +10,13 @@ if TYPE_CHECKING:
     from .pickedgcp import PickedGCP
     from .calibrationparameter import CalibrationParameter
     from .roi import ROI
+    
 
-class Calibration(SQLModel, table=True):
+class Calibration(BaseSQLModel, table=True):
     __tablename__ = "calibration"
 
-    idcalibration: str = Field(
-        sa_column=Column("idcalibration", String, nullable=False),
-        primary_key=True
-    )
-
-    camera_id: str = Field(
-        sa_column=Column("camera", String, nullable=False)
-    )
-
-    station: str = Field(
-        sa_column=Column("station", String, nullable=False)
+    camera_id: int = Field(
+        sa_column=Column("camera", Integer, ForeignKey("camera.id"), nullable=False)
     )
 
     timestamp: float = Field(
@@ -37,10 +30,6 @@ class Calibration(SQLModel, table=True):
 
     # Relaciones
     camera: Optional["Camera"] = Relationship(
-        sa_relationship_kwargs={
-            "primaryjoin": "and_(Calibration.camera_id==Camera.id, Calibration.station==Camera.station)",
-            "foreign_keys": "[Calibration.camera_id, Calibration.station]",
-        },
         back_populates="calibrations"
     )
 

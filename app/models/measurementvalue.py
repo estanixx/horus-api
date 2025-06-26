@@ -2,36 +2,33 @@ from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy import Integer, String, Float
 from typing import Optional
 from typing import TYPE_CHECKING
-
+from app.models.base import BaseSQLModel
 if TYPE_CHECKING:
     from .measurement import Measurement
 
 
-class MeasurementValue(SQLModel, table=True):
-    __tablename__ = "measurementvalue"
+class MeasurementValue(BaseSQLModel, table=True):
+    __tablename__ = "measurement_value"
 
-    idmeasurement: int = Field(
-        sa_column=Column("idmeasurement", Integer, nullable=False,
+    measurement_id: int = Field(
+        sa_column=Column("measurement_id", Integer, nullable=False,
+        primary_key=True),
+        foreign_key="measurement.id"
+    )
+
+
+    id_col: int = Field(
+        sa_column=Column("id_col", Integer, nullable=False,
         primary_key=True)
     )
 
-    station: str = Field(
-        sa_column=Column("station", String, nullable=False,
+    id_row: int = Field(
+        sa_column=Column("id_row", Integer, nullable=False,
         primary_key=True)
     )
 
-    idcol: int = Field(
-        sa_column=Column("idcol", Integer, nullable=False,
-        primary_key=True)
-    )
-
-    idrow: int = Field(
-        sa_column=Column("idrow", Integer, nullable=False,
-        primary_key=True)
-    )
-
-    iddepth: int = Field(
-        sa_column=Column("iddepth", Integer, nullable=False,
+    id_depth: int = Field(
+        sa_column=Column("id_depth", Integer, nullable=False,
         primary_key=True)
     )
 
@@ -40,10 +37,5 @@ class MeasurementValue(SQLModel, table=True):
     )
 
     measurement: Optional["Measurement"] = Relationship(
-        sa_relationship_kwargs={
-            "primaryjoin": "and_(MeasurementValue.idmeasurement==Measurement.idmeasurement, "
-                           "MeasurementValue.station==Measurement.station)",
-            "foreign_keys": "[MeasurementValue.idmeasurement, MeasurementValue.station]"
-        },
         back_populates="values"
     )

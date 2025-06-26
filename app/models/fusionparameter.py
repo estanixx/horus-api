@@ -1,23 +1,19 @@
 from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String
+from sqlalchemy import String, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
+from app.models.base import BaseSQLModel
 
 if TYPE_CHECKING:
     from .fusion import Fusion
     from .fusionvalue import FusionValue
 
 
-class FusionParameter(SQLModel, table=True):
-    __tablename__ = "fusionparameter"
+class FusionParameter(BaseSQLModel, table=True):
+    __tablename__ = "fusion_parameter"
 
-    id: str = Field(
-        sa_column=Column("id", String, nullable=False,
-        primary_key=True)
-    )
-
-    idfusion: str = Field(
-        sa_column=Column("idfusion", String, nullable=False),
+    id_fusion: int = Field(
+        sa_column=Column("id_fusion", Integer, nullable=False),
         foreign_key="fusion.id"
     )
 

@@ -11,11 +11,13 @@ from .measurement import Measurement
 from .gcp import GCP
 from .pickedgcp import PickedGCP
 from .timestack import TimeStack
+from .calibration import Calibration
 from .calibrationparameter import CalibrationParameter
 from .calibrationvalue import CalibrationValue
 from .roi import ROI
 from .roicoordinate import ROICoordinate
 from .measurementvalue import MeasurementValue
+from .fusion import Fusion
 from .camerabyfusion import CameraByFusion
 from .fusionparameter import FusionParameter
 from .fusionvalue import FusionValue
@@ -33,11 +35,13 @@ __all__ = [
     "GCP",
     "PickedGCP",
     "TimeStack",
+    "Calibration",
     "CalibrationParameter",
     "CalibrationValue",
     "ROI",
     "ROICoordinate",
     "MeasurementValue",
+    "Fusion",
     "CameraByFusion",
     "FusionParameter",
     "FusionValue"

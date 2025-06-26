@@ -2,38 +2,38 @@ from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy import Integer, String, DECIMAL
 from typing import Optional, List
 from typing import TYPE_CHECKING
+from app.models.base import BaseSQLModel
+
 
 if TYPE_CHECKING:
     from .measurementtype import MeasurementType
     from .measurementvalue import MeasurementValue
+    from .station import Station
 
 
-class Measurement(SQLModel, table=True):
+class Measurement(BaseSQLModel, table=True):
     __tablename__ = "measurement"
 
-    idmeasurement: int = Field(
-        sa_column=Column("idmeasurement", Integer, primary_key=True, autoincrement=True, nullable=False)
+
+    station_id: int = Field(
+        foreign_key="station.id",
+        sa_column=Column("station_id", Integer, nullable=False)
     )
 
-    station: str = Field(
-        sa_column=Column("station", String, primary_key=True, nullable=False)
-    )
-
-    type_id: int = Field(
-        sa_column=Column("type", Integer, nullable=False)
+    measurement_type_id: int = Field(
+        sa_column=Column("type", Integer, nullable=False),
+        foreign_key="measurement_type.id"
     )
 
     timestamp: float = Field(
         sa_column=Column("timestamp", DECIMAL(17, 10), nullable=False)
     )
 
+    station: Optional["Station"] = Relationship(
+        back_populates="measurements",
+    )
     # Relaciones
     measurement_type: Optional["MeasurementType"] = Relationship(
-        sa_relationship_kwargs={
-            "primaryjoin": "and_(Measurement.type_id==MeasurementType.id, "
-                           "Measurement.station==MeasurementType.station)",
-            "foreign_keys": "[Measurement.type_id, Measurement.station]"
-        },
         back_populates="measurements"
     )
 

@@ -25,8 +25,8 @@ class Station(BaseSQLModel, table=True):
 
     cameras: List["Camera"] = Relationship(back_populates="station")
     sensors: List["Sensor"] = Relationship(back_populates="station")
-    gcps: List["GCP"] = Relationship(back_populates="station_ref")
-    automatic_params: List["AutomaticParams"] = Relationship(back_populates="station_ref")
+    gcps: List["GCP"] = Relationship(back_populates="station")
+    automatic_params: List["AutomaticParams"] = Relationship(back_populates="station")
 
     def __repr__(self):
         return f"Station(id={self.id}, alias='{self.alias}', city='{self.city}')"

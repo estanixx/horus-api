@@ -2,27 +2,28 @@ from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy import String, Integer, Float, ForeignKey
 from typing import Optional
 from typing import TYPE_CHECKING
+from app.models.base import TimestampsSQLModel
 
 if TYPE_CHECKING:
     from .fusionparameter import FusionParameter
 
 
-class FusionValue(SQLModel, table=True):
-    __tablename__ = "fusionvalue"
+class FusionValue(TimestampsSQLModel, table=True):
+    __tablename__ = "fusion_value"
 
-    idmatrix: str = Field(
-        sa_column=Column("idmatrix", String, ForeignKey("fusionparameter.id"), nullable=False,
+    id_matrix: int = Field(
+        sa_column=Column("id_matrix", Integer, ForeignKey("fusion_parameter.id"), nullable=False,
         primary_key=True,
         )
     )
 
-    idcol: int = Field(
-        sa_column=Column("idcol", Integer, nullable=False,
+    id_col: int = Field(
+        sa_column=Column("id_col", Integer, nullable=False,
         primary_key=True)
     )
 
-    idrow: int = Field(
-        sa_column=Column("idrow", Integer, nullable=False,
+    id_row: int = Field(
+        sa_column=Column("id_row", Integer, nullable=False,
         primary_key=True)
     )
 

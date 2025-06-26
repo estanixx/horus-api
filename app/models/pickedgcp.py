@@ -1,35 +1,32 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String, Integer, Float, ForeignKey
+from sqlmodel import Field, Relationship, Column
+from sqlalchemy import String, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
-
+from app.models.base import BaseSQLModel
 if TYPE_CHECKING:
     from .calibration import Calibration
     from .gcp import GCP
 
 
-class PickedGCP(SQLModel, table=True):
-    __tablename__ = "pickedgcp"
+class PickedGCP(BaseSQLModel, table=True):
+    __tablename__ = "picked_gcp"
 
     calibration_id: str = Field(
         sa_column=Column(
             "calibration",
             String,
-            ForeignKey("calibration.icalibration"),
             primary_key=True,
             nullable=False
-        )
+        ),
+        foreign_key="calibration.id",
     )
 
     gcp_id: int = Field(
-        sa_column=Column("gcp", Integer, nullable=False),
-        primary_key=True
+        sa_column=Column("gcp_id", Integer, nullable=False),
+        primary_key=True,
+        foreign_key="gcp.id"
     )
 
-    station: str = Field(
-        sa_column=Column("station", String, nullable=False),
-        primary_key=True
-    )
 
     u: float
     v: float
@@ -37,9 +34,5 @@ class PickedGCP(SQLModel, table=True):
     calibration: Optional["Calibration"] = Relationship(back_populates="picked_gcps")
 
     gcp: Optional["GCP"] = Relationship(
-        sa_relationship_kwargs={
-            "primaryjoin": "and_(PickedGCP.gcp_id==GCP.idgcp, PickedGCP.station==GCP.station)",
-            "foreign_keys": "[PickedGCP.gcp_id, PickedGCP.station]",
-        },
         back_populates="picked_gcps"
     )

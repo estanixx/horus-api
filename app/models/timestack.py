@@ -2,12 +2,12 @@ from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy import String, Integer, Float, DECIMAL, ForeignKey
 from typing import Optional
 from typing import TYPE_CHECKING
-
+from app.models.base import BaseSQLModel
 if TYPE_CHECKING:
     from .camera import Camera
 
 
-class TimeStack(SQLModel, table=True):
+class TimeStack(BaseSQLModel, table=True):
     __tablename__ = "timestack"
 
     filename: str = Field(
@@ -19,13 +19,11 @@ class TimeStack(SQLModel, table=True):
         )
     )
 
-    camera_id: str = Field(
-        sa_column=Column("camera", String, nullable=False)
+    camera_id: int = Field(
+        sa_column=Column("camera", Integer, nullable=True),
+        foreign_key="camera.id"
     )
 
-    station: str = Field(
-        sa_column=Column("station", String, nullable=False)
-    )
 
     inittime: float = Field(
         sa_column=Column("inittime", DECIMAL(17, 10), nullable=False)
@@ -45,9 +43,5 @@ class TimeStack(SQLModel, table=True):
 
     # Relaciones
     camera: Optional["Camera"] = Relationship(
-        sa_relationship_kwargs={
-            "primaryjoin": "and_(TimeStack.camera_id==Camera.id, TimeStack.station==Camera.station)",
-            "foreign_keys": "[TimeStack.camera_id, TimeStack.station]"
-        },
         back_populates="timestacks"
     )

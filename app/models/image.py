@@ -12,14 +12,12 @@ from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import Column
 from sqlalchemy.sql.sqltypes import TIMESTAMP
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Field, Relationship, SQLModel, Integer
+from app.models.base import BaseSQLModel
 
 if TYPE_CHECKING:
     from .imagetype import ImageType
-    from .rectifiedimage import RectifiedImage
-    from .mergedimage import MergedImage
-
-class Image(SQLModel, table=True):
+class Image(BaseSQLModel, table=False):
     """
     Represents a image record in the database.
 
@@ -33,39 +31,17 @@ class Image(SQLModel, table=True):
         path (str): the path of the image
     """
     filename: str = Field(
-        primary_key=True,
+        unique=True,
         description="Name of the file"
     )
 
-    # CORRECTED: Switched to timezone-aware datetimes to prevent database errors.
-    created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
+    image_type_id: Optional[int] = Field(
         nullable=False,
-        sa_column=Column(
-            TIMESTAMP(timezone=True),  # Ensures the database column type is TIMESTAMPTZ.
-            nullable=False
-        ),
-        description="Timestamp of when the record was created (UTC)."
-    )
-
-    # CORRECTED: Switched to timezone-aware datetimes and combined SQLAlchemy arguments.
-    updated_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
-        nullable=False,
-        sa_column=Column(
-            TIMESTAMP(timezone=True),
-            nullable=False,
-            onupdate=lambda: datetime.now(timezone.utc)  # This tells the DB to update on modification.
-        ),
-        description="Timestamp of the last update to the record (UTC)."
-    )
-    idtype: Optional[str] = Field(
-        sa_column=Column("type", nullable=False),
-        foreign_key="imagetype.idtype",
+        foreign_key="image_type.id",
         description="Foreign key to a ImageType entity, stores the type of the image"
     )
 
-    imagetype: Optional["ImageType"] = Relationship(back_populates="images")
+    image_type: Optional["ImageType"] = Relationship(back_populates="images")
 
     timestamp: float = Field(description="Time of the image")
 
@@ -73,11 +49,3 @@ class Image(SQLModel, table=True):
 
     path: str = Field(description="The path of the image")
 
-    rectified: Optional["RectifiedImage"] = Relationship(back_populates="image")
-    merged: Optional["MergedImage"] = Relationship(back_populates="image")
-
-
-    class Config:
-        """Pydantic model configuration."""
-        # Allows the model to use custom types that might not be natively supported by Pydantic.
-        arbitrary_types_allowed = True

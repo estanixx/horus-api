@@ -2,22 +2,18 @@ from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy import String, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
-
+from app.models.base import BaseSQLModel
 if TYPE_CHECKING:
     from .station import Station
 
 
-class AutomaticParams(SQLModel, table=True):
-    __tablename__ = "automaticparams"
+class AutomaticParams(BaseSQLModel, table=True):
+    __tablename__ = "automatic_params"
 
-    idauto: int = Field(
-        sa_column=Column("idauto", Integer, nullable=False),
-        primary_key=True
-    )
 
-    station: str = Field(
-        sa_column=Column("station", String, nullable=False),
-        foreign_key="station.name"
+    station_id: str = Field(
+        sa_column=Column("station", Integer, nullable=False),
+        foreign_key="station.id"
     )
 
     type: str = Field(sa_column=Column("type", String, nullable=False))
@@ -31,4 +27,5 @@ class AutomaticParams(SQLModel, table=True):
     duration: Optional[int] = None
     num_images: Optional[int] = None
 
-    station_ref: Optional["Station"] = Relationship(back_populates="automatic_params")
+    station: Optional["Station"] = Relationship(back_populates="automatic_params")
+ 

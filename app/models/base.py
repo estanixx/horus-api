@@ -3,13 +3,8 @@ from typing import Optional
 from sqlalchemy import Column
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlmodel import Field, SQLModel
-
-class BaseSQLModel(SQLModel):
-    id: Optional[int] = Field(
-        default=None,
-        primary_key=True,
-        description="Primary record key"
-    )
+        
+class TimestampsSQLModel(SQLModel):
 
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
@@ -33,3 +28,11 @@ class BaseSQLModel(SQLModel):
 
     class Config:
         arbitrary_types_allowed = True
+        
+
+class BaseSQLModel(TimestampsSQLModel):
+    id: int = Field(
+        default=None,
+        primary_key=True,
+        description="Primary record key"
+    )
