@@ -1,4 +1,3 @@
-Aquí tienes la documentación completa lista para ser agregada a un archivo global como `graphql_api_reference.md`, en un **solo bloque de código `.md`**:
 
 ````md
 ## 📡 Horus API (GraphQL)
@@ -127,5 +126,4 @@ mutation {
 }
 ```
 
-```
 
