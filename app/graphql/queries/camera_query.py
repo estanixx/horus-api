@@ -1,6 +1,5 @@
 import strawberry
 from typing import List, Optional
-
 from app.graphql.types import CameraType
 from app.services.camera_service import CameraService
 from sqlmodel.ext.asyncio.session import AsyncSession

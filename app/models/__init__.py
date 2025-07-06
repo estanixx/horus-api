@@ -4,7 +4,7 @@ from .imagetype import ImageType
 from .image import Image
 from .mergedimage import MergedImage
 from .obliqueimage import ObliqueImage
-from . rectifiedimage import RectifiedImage
+from .rectifiedimage import RectifiedImage
 from .sensor import Sensor
 from .measurementtype import MeasurementType
 from .measurement import Measurement
@@ -21,6 +21,7 @@ from .fusion import Fusion
 from .camerabyfusion import CameraByFusion
 from .fusionparameter import FusionParameter
 from .fusionvalue import FusionValue
+
 __all__ = [
     "Station",
     "Camera",

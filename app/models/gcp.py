@@ -1,5 +1,5 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import Integer, String, Float, ForeignKey
+from sqlmodel import Field, Relationship, Column
+from sqlalchemy import Integer, String
 from typing import Optional
 from typing import TYPE_CHECKING
 from app.models.base import BaseSQLModel
@@ -8,9 +8,7 @@ if TYPE_CHECKING:
     from .station import Station
     from .pickedgcp import PickedGCP
 
-
 class GCP(BaseSQLModel, table=True):
-    __tablename__ = "gcp"
 
     station_id: int = Field(
         foreign_key='station.id',
@@ -23,7 +21,6 @@ class GCP(BaseSQLModel, table=True):
     name: str = Field(
         sa_column=Column("name", String, nullable=False)
     )
-
     x: float
     y: float
     z: float

@@ -2,10 +2,11 @@ import strawberry
 from .station_mutation import StationMutation
 from .camera_mutation import CameraMutation
 from .sensor_mutation import SensorMutation
+from .image_mutation import ImageMutation
 
 
 @strawberry.type
-class Mutation(StationMutation, CameraMutation, SensorMutation ):
+class Mutation(StationMutation, CameraMutation, SensorMutation, ImageMutation ):
     """
     The root Mutation type for the GraphQL schema.
 

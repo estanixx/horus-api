@@ -1,6 +1,5 @@
-# app/models/rectifiedimage.py
-from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String, ForeignKey, Integer
+from sqlmodel import Field, Relationship, Column
+from sqlalchemy import Integer
 from typing import Optional
 from typing import TYPE_CHECKING
 from .image import Image
@@ -10,7 +9,6 @@ if TYPE_CHECKING:
 
 
 class RectifiedImage(Image, table=True):
-    __tablename__ = "rectified_image"
 
     calibration_id: int = Field(
         sa_column=Column("calibration", Integer, nullable=False),

@@ -1,5 +1,5 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String, ForeignKey
+from sqlmodel import Field, Relationship, Column
+from sqlalchemy import String
 from typing import Optional, TYPE_CHECKING
 from .image import Image
 
@@ -8,8 +8,6 @@ if TYPE_CHECKING:
 
 
 class MergedImage(Image, table=True):
-    __tablename__ = "merged_image"
-
 
     fusion_id: str = Field(
         foreign_key='fusion.id',

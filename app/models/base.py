@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-from typing import Optional
 from sqlalchemy import Column
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlmodel import Field, SQLModel

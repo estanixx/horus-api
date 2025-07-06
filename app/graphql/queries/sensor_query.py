@@ -1,6 +1,5 @@
 import strawberry
 from typing import List, Optional
-
 from app.graphql.types import SensorType
 from app.services.sensor_service import SensorService
 from sqlmodel.ext.asyncio.session import AsyncSession

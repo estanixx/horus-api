@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlmodel import Field, Relationship, Column
 from sqlalchemy import String, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -7,7 +7,6 @@ from app.models.base import BaseSQLModel
 if TYPE_CHECKING:
     from .fusion import Fusion
     from .fusionvalue import FusionValue
-
 
 class FusionParameter(BaseSQLModel, table=True):
     __tablename__ = "fusion_parameter"

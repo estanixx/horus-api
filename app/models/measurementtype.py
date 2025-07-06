@@ -1,5 +1,5 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String, Integer
+from sqlmodel import Field, Relationship, Column
+from sqlalchemy import Integer
 from typing import Optional, List, TYPE_CHECKING
 from app.models.base import BaseSQLModel
 

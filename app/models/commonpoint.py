@@ -1,5 +1,5 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String, Float, Integer
+from sqlmodel import Field, Relationship, Column
+from sqlalchemy import String, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
 from app.models.base import BaseSQLModel
@@ -10,30 +10,25 @@ if TYPE_CHECKING:
 
 
 class CommonPoint(BaseSQLModel, table=True):
-    __tablename__ = "common_point"
 
     id_fusion: int = Field(
         sa_column=Column("id_fusion", Integer, nullable=False),
         primary_key=True,
         foreign_key="fusion.id"
     )
-
     camera_id: int = Field(
         sa_column=Column("camera", Integer, nullable=False),
         foreign_key="camera.id",
         primary_key=True
     )
-
     name: str = Field(
         sa_column=Column("name", String, nullable=False),
         primary_key=True
     )
-
     u: float
     v: float
 
     fusion: Optional["Fusion"] = Relationship(back_populates="common_points")
-
     camera: Optional["Camera"] = Relationship(
         back_populates="common_points"
     )

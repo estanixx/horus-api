@@ -1,14 +1,13 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String, Float, ForeignKey
+from sqlmodel import Field, Relationship, Column
+from sqlalchemy import String
 from typing import Optional, TYPE_CHECKING
 from app.models.base import BaseSQLModel
+
 if TYPE_CHECKING:
     from .station import Station
     from .measurementtype import MeasurementType
 
-
 class Sensor(BaseSQLModel, table=True):
-    __tablename__ = "sensor"
 
     name: str = Field(
         sa_column=Column("name", String, nullable=False),
@@ -19,9 +18,6 @@ class Sensor(BaseSQLModel, table=True):
         foreign_key="station.id",
         description="id of the associated station"
     )
-
-
-    
     x: float = Field(description="Sensor X coordinate")
     y: float = Field(description="Sensor Y coordinate")
     z: float = Field(description="Sensor Z coordinate")
