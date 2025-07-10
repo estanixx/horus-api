@@ -20,8 +20,8 @@ class TimeStack(BaseSQLModel, table=True):
     )
 
     camera_id: int = Field(
-        sa_column=Column("camera", Integer, nullable=True),
-        foreign_key="camera.id"
+        sa_column=Column("camera_id", Integer, ForeignKey("camera.id"), nullable=True),
+        
     )
 
 

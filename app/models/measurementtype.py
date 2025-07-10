@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey
 from sqlalchemy import String, Integer
 from typing import Optional, List, TYPE_CHECKING
 from app.models.base import BaseSQLModel
@@ -12,8 +12,8 @@ class MeasurementType(BaseSQLModel, table=True):
     __tablename__ = "measurement_type"
 
     sensor_id: int = Field(
-        foreign_key="sensor.id",
-        sa_column=Column("sensor", Integer, nullable=False)
+        
+        sa_column=Column("sensor_id", Integer, ForeignKey("sensor.id"), nullable=False)
     )
 
     paramname: str

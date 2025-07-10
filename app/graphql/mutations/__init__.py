@@ -1,7 +1,7 @@
 import strawberry
-from .station_mutation import StationMutation
-from .camera_mutation import CameraMutation
-from .sensor_mutation import SensorMutation
+from .station_mutations import StationMutation
+from .camera_mutations import CameraMutation
+from .sensor_mutations import SensorMutation
 
 
 @strawberry.type

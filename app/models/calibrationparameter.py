@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey
 from sqlalchemy import String, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -14,8 +14,7 @@ class CalibrationParameter(BaseSQLModel, table=True):
 
 
     calibration_id: int = Field(
-        sa_column=Column("calibration", Integer, nullable=False),
-        foreign_key="calibration.id"
+        sa_column=Column("calibration_id", Integer, ForeignKey("calibration.id"), nullable=False),
     )
 
     name: str

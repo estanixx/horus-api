@@ -1,9 +1,28 @@
-from .camera_type import CameraType, CameraCreateInput, CameraUpdateInput
-from .station_type import StationType, StationCreateInput, StationUpdateInput
-from .sensor_type import SensorType, SensorCreateInput, SensorUpdateInput
+# app/graphql/types/__init__.py
+
+"""
+Barrel file for exporting all GraphQL types.
+
+This file makes it convenient to import any type from the `app.graphql.types`
+module, simplifying imports in resolvers and the schema definition.
+"""
+
+from .common import PageInfo, Edge, Connection
+from .station import StationType, StationCreateInput, StationUpdateInput
+from .camera import CameraType, CameraCreateInput, CameraUpdateInput
+from .sensor import SensorType, SensorCreateInput, SensorUpdateInput
 
 __all__ = [
-    "StationType", "StationCreateInput", "StationUpdateInput",
-    "CameraType", "CameraCreateInput", "CameraUpdateInput",
-    "SensorType", "SensorCreateInput", "SensorUpdateInput"
+    "PageInfo",
+    "Edge",
+    "Connection",
+    "StationType",
+    "StationCreateInput",
+    "StationUpdateInput",
+    "CameraType",
+    "CameraCreateInput",
+    "CameraUpdateInput",
+    "SensorType",
+    "SensorCreateInput",
+    "SensorUpdateInput",
 ]

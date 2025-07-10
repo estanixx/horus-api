@@ -14,7 +14,9 @@ from app.models.base import BaseSQLModel
 from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
-    from .image import Image
+    from .obliqueimage import ObliqueImage
+    from .mergedimage import MergedImage
+    from .rectifiedimage import RectifiedImage 
 
 class ImageType(BaseSQLModel, table=True):
     __tablename__ = "image_type"
@@ -30,4 +32,6 @@ class ImageType(BaseSQLModel, table=True):
 
     description: Optional[str] = Field(description="A brief description of the type")
 
-    images: List["Image"] = Relationship(back_populates="image_type")
+    oblique_images: List["ObliqueImage"] = Relationship(back_populates="image_type")
+    merged_images: List["MergedImage"] = Relationship(back_populates="image_type")
+    rectified_images: List["RectifiedImage"] = Relationship(back_populates="image_type")

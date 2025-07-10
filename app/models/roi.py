@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlmodel import SQLModel, Field, Relationship, Column, Integer, ForeignKey
 from sqlalchemy import String, DECIMAL
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -11,9 +11,9 @@ if TYPE_CHECKING:
 class ROI(BaseSQLModel, table=True):
     __tablename__ = "roi"
 
-    calibration_id: str = Field(
-        sa_column=Column("calibration_id", String, nullable=False),
-        foreign_key="calibration.id"
+    calibration_id: int = Field(
+        sa_column=Column("calibration_id", Integer, ForeignKey("calibration.id"), nullable=False),
+        
     )
 
     type: str

@@ -1,4 +1,4 @@
-from sqlmodel import Field, Relationship, Column
+from sqlmodel import Field, Relationship, Column, ForeignKey
 from sqlalchemy import String, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -11,20 +11,20 @@ if TYPE_CHECKING:
 class PickedGCP(BaseSQLModel, table=True):
     __tablename__ = "picked_gcp"
 
-    calibration_id: str = Field(
+    calibration_id: int = Field(
         sa_column=Column(
             "calibration",
-            String,
+            Integer,
+            ForeignKey("calibration.id"),
             primary_key=True,
             nullable=False
         ),
-        foreign_key="calibration.id",
+        
     )
 
     gcp_id: int = Field(
-        sa_column=Column("gcp_id", Integer, nullable=False),
+        sa_column=Column("gcp_id", Integer, ForeignKey("gcp.id"), nullable=False),
         primary_key=True,
-        foreign_key="gcp.id"
     )
 
 

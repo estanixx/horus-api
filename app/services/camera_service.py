@@ -1,53 +1,108 @@
-from typing import List, Optional
+# app/graphql/services/camera_service.py
+
+"""
+Service layer for handling business logic related to Camera models.
+"""
+
+from typing import List, Optional, Tuple
 from sqlmodel import select
-from app.models import Camera
 from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.orm import selectinload
+from sqlalchemy import func, and_
+import strawberry
+from app.models import Camera
+from typing import TYPE_CHECKING, Annotated
+if TYPE_CHECKING:
+    from app.graphql.types import CameraCreateInput, CameraUpdateInput
+
 
 class CameraService:
+    """Service class for camera-related operations."""
 
-    def __init__(self, db: AsyncSession):
-        self.db = db
+    @staticmethod
+    async def get_by_id(db: AsyncSession, camera_id: int) -> Optional[Camera]:
+        """
+        Retrieves a single camera by its ID, pre-loading the parent station.
+        """
+        statement = (
+            select(Camera)
+            .where(Camera.id == camera_id)
+            .options(selectinload(Camera.station))
+        )
+        result = await db.exec(statement)
+        return result.first()
 
+    @staticmethod
+    async def get_for_station(
+        db: AsyncSession, station_id: int, skip: int, limit: int
+    ) -> Tuple[List[Camera], int]:
+        """
+        Retrieves a paginated list of cameras for a specific station and the total count.
+        """
+        statement = (
+            select(Camera)
+            .where(Camera.station_id == station_id)
+            .offset(skip)
+            .limit(limit)
+        )
+        result = await db.exec(statement)
+        cameras = result.all()
+        
+        count_statement = select(func.count()).select_from(Camera).where(Camera.station_id == station_id)
+        total_count = (await db.exec(count_statement)).one()
+        
+        return cameras, total_count
 
-    async def get_all_cameras(self) -> List[Camera]:
-        result = await self.db.exec(select(Camera))
-        return result.all()
+    @staticmethod
+    async def get_all_paginated(
+        db: AsyncSession, skip: int, limit: int
+    ) -> Tuple[List[Camera], int]:
+        """
+        Retrieves a paginated list of all cameras.
+        """
+        statement = select(Camera).offset(skip).limit(limit)
+        result = await db.exec(statement)
+        cameras = result.all()
 
+        count_statement = select(func.count()).select_from(Camera)
+        total_count = (await db.exec(count_statement)).one()
 
-    async def get_camera_by_id(self, camera_id: int) -> Optional[Camera]:
-        return await self.db.get(Camera, camera_id)
+        return cameras, total_count
+        
+    @staticmethod
+    async def create(db: AsyncSession, data:  Annotated["CameraCreateInput", strawberry.lazy('app.graphql.types')]) -> Camera: # Or SensorCreateInput
+        """Creates a new camera."""
+        # Explicitly convert the input object to a dictionary for validation
+        new_model = Camera(**strawberry.asdict(data))
+        
+        db.add(new_model)
+        await db.commit()
+        await db.refresh(new_model)
+        return new_model
 
+    @staticmethod
+    async def update(db: AsyncSession, camera_id: int, data:  Annotated["CameraUpdateInput", strawberry.lazy('app.graphql.types')]) -> Optional[Camera]:
+        """Updates an existing camera."""
+        camera = await db.get(Camera, camera_id)
+        if not camera:
+            return None
 
-    async def create_camera(self, camera_create: Camera) -> Camera:
-        self.db.add(camera_create)
-        await self.db.commit()
-        await self.db.refresh(camera_create)
-        return camera_create
+        update_data = strawberry.asdict(data)
+        for key, value in update_data.items():
+            setattr(camera, key, value)
 
-
-    async def update_camera(self, camera_id: int, camera_update: Camera) -> Optional[Camera]:
-        camera = await self.db.get(Camera, camera_id)
-        if camera:
-            update_data = camera_update.dict(exclude_unset=True)
-            for key, value in update_data.items():
-                setattr(camera, key, value)
-
-            self.db.add(camera)
-            await self.db.commit()
-            await self.db.refresh(camera)
+        db.add(camera)
+        await db.commit()
+        await db.refresh(camera)
         return camera
 
-
-    async def delete_camera(self, camera_id: int) -> bool:
-        camera = await self.db.get(Camera, camera_id)
-        if camera:
-            await self.db.delete(camera)
-            await self.db.commit()
-            return True
-        return False
-    
-    
-    async def get_cameras_by_station_id(self, station_id: int) -> List[Camera]:
-        statement = select(Camera).where(Camera.station_id == station_id)
-        result = await self.db.exec(statement)
-        return result.all()
+    @staticmethod
+    async def delete(db: AsyncSession, camera_id: int) -> Optional[Camera]:
+        """Deletes a camera."""
+        camera = await db.get(Camera, camera_id)
+        if not camera:
+            return None
+        
+        await db.delete(camera)
+        await db.commit()
+        return camera

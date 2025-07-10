@@ -11,8 +11,8 @@ if TYPE_CHECKING:
 class FusionValue(TimestampsSQLModel, table=True):
     __tablename__ = "fusion_value"
 
-    id_matrix: int = Field(
-        sa_column=Column("id_matrix", Integer, ForeignKey("fusion_parameter.id"), nullable=False,
+    matrix_id: int = Field(
+        sa_column=Column("matrix_id", Integer, ForeignKey("fusion_parameter.id"), nullable=False,
         primary_key=True,
         )
     )

@@ -1,21 +1,20 @@
-
 # HORUS API
 
 This project provides a robust backend foundation for a modern web application. It features a high-performance GraphQL API built with FastAPI and Strawberry, leveraging SQLModel for an elegant and type-safe database layer. It is configured for asynchronous operations with PostgreSQL, uses Alembic for database migrations, and is **fully containerized with Docker for a streamlined development experience.**
 
 ## Tech Stack
 
-  - **Backend:** FastAPI
-  - **GraphQL:** Strawberry
-  - **Database ORM:** SQLModel (combining Pydantic and SQLAlchemy)
-  - **Database:** PostgreSQL
-  - **Migrations:** Alembic
-  - **Development & Deployment:** Docker & Docker Compose
+- **Backend:** FastAPI
+- **GraphQL:** Strawberry
+- **Database ORM:** SQLModel (combining Pydantic and SQLAlchemy)
+- **Database:** PostgreSQL
+- **Migrations:** Alembic
+- **Development & Deployment:** Docker & Docker Compose
 
 ## Prerequisites
 
-  - Docker
-  - Docker Compose
+- Docker
+- Docker Compose
 
 ## 1\. Local Development Setup
 
@@ -48,10 +47,10 @@ docker-compose exec web alembic upgrade head
 
 Your API is now running. You can verify it by accessing these URLs in your browser:
 
-  - **Health Check:** [http://localhost:8004/health](https://www.google.com/search?q=http://localhost:8004/health)
-  - **GraphQL API & Playground:** [http://localhost:8004/graphql](https://www.google.com/search?q=http://localhost:8004/graphql)
+- **Health Check:** [http://localhost:8004/health](https://www.google.com/search?q=http://localhost:8004/health)
+- **GraphQL API & Playground:** [http://localhost:8004/graphql](https://www.google.com/search?q=http://localhost:8004/graphql)
 
------
+---
 
 ## 2\. Developer's Guide: How to Add a New Entity
 
@@ -73,7 +72,7 @@ class WeatherReading(BaseSQLModel, table=True):
     temperature: float = Field(description="The recorded temperature in Celsius.")
     humidity: float = Field(description="The recorded relative humidity as a percentage.")
     wind_speed: float = Field(description="The recorded wind speed in km/h.")
-    station_id: Optional[int] = Field(default=None, foreign_key="station.id")
+    station_id: Optional[int] = Field(default=None, ForeignKey("station.id")
 ```
 
 ### Step 2: Create a Database Migration
@@ -155,7 +154,7 @@ class WeatherReadingService:
     async def get_all(self) -> List[WeatherReading]:
         result = await self.db.exec(select(WeatherReading))
         return result.all()
-    
+
     # ... implement create, update, delete methods ...
 ```
 
@@ -167,31 +166,28 @@ Create the files `app/graphql/queries/weather_reading_query.py` and `app/graphql
 
 Update the `__init__.py` barrel files in each directory to include your new components. This makes them available to the rest of the application.
 
-  - `app/graphql/types/__init__.py`
-  - `app/graphql/queries/__init__.py`
-  - `app/graphql/mutations/__init__.py`
-  - `app/services/__init__.py`
+- `app/graphql/types/__init__.py`
+- `app/graphql/queries/__init__.py`
+- `app/graphql/mutations/__init__.py`
+- `app/services/__init__.py`
 
 For example, you would add `from .weather_reading_query import WeatherReadingQuery` to `app/graphql/queries/__init__.py` and add `WeatherReadingQuery` to the `class Query(...)` inheritance list.
 
------
+---
 
 ## 3\. Testing Your Endpoints
 
 The best way to test is using the interactive GraphiQL UI.
 
-  - **Navigate to:** [http://localhost:8004/graphql](https://www.google.com/search?q=http://localhost:8004/graphql)
+- **Navigate to:** [http://localhost:8004/graphql](https://www.google.com/search?q=http://localhost:8004/graphql)
 
 **Example: Create a new Entity**
 
 ```graphql
 mutation {
-  createWeatherReading(input: {
-    temperature: 25.5,
-    humidity: 60.2,
-    windSpeed: 15.0,
-    stationId: 1
-  }) {
+  createWeatherReading(
+    input: { temperature: 25.5, humidity: 60.2, windSpeed: 15.0, stationId: 1 }
+  ) {
     id
     temperature
   }
@@ -221,11 +217,11 @@ requirements.txt    # Python dependencies
 
 ## 5\. Additional Commands
 
-  - **View logs for the web service:**
-    ```sh
-    docker-compose logs -f web
-    ```
-  - **Tear down all containers and volumes (deletes all data):**
-    ```sh
-    docker-compose down -v
-    ```
+- **View logs for the web service:**
+  ```sh
+  docker-compose logs -f web
+  ```
+- **Tear down all containers and volumes (deletes all data):**
+  ```sh
+  docker-compose down -v
+  ```

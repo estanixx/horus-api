@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey
 from sqlalchemy import String, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -12,8 +12,7 @@ class AutomaticParams(BaseSQLModel, table=True):
 
 
     station_id: str = Field(
-        sa_column=Column("station", Integer, nullable=False),
-        foreign_key="station.id"
+        sa_column=Column("station_id", Integer, ForeignKey("station.id"), nullable=False),
     )
 
     type: str = Field(sa_column=Column("type", String, nullable=False))

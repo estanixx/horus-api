@@ -13,10 +13,10 @@ class GCP(BaseSQLModel, table=True):
     __tablename__ = "gcp"
 
     station_id: int = Field(
-        foreign_key='station.id',
         sa_column=Column(
             "station_id",
             Integer,
+            ForeignKey('station.id'),
             nullable=False,
         )
     )

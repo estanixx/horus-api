@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey
 from sqlalchemy import String, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -13,8 +13,7 @@ class FusionParameter(BaseSQLModel, table=True):
     __tablename__ = "fusion_parameter"
 
     id_fusion: int = Field(
-        sa_column=Column("id_fusion", Integer, nullable=False),
-        foreign_key="fusion.id"
+        sa_column=Column("id_fusion", Integer, ForeignKey("fusion.id"), nullable=False),       
     )
 
     name: str = Field(sa_column=Column("name", String, nullable=False))

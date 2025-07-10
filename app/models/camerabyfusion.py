@@ -12,15 +12,13 @@ if TYPE_CHECKING:
 class CameraByFusion(BaseSQLModel, table=True):
     __tablename__ = "camera_fusion"
 
-    id_fusion: int = Field(
-        sa_column=Column("id_fusion", Integer, nullable=False, primary_key=True),
-        foreign_key="fusion.id",
+    fusion_id: int = Field(
+        sa_column=Column("fusion_id", Integer, ForeignKey("fusion.id"), nullable=False, primary_key=True),
     )
 
     camera_id: int = Field(
-        sa_column=Column("camera", Integer, nullable=False,
+        sa_column=Column("camera_id", Integer, ForeignKey("camera.id"), nullable=False,
         primary_key=True),
-        foreign_key="camera.id",
     )
 
 

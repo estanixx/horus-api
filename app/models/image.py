@@ -41,7 +41,7 @@ class Image(BaseSQLModel, table=False):
         description="Foreign key to a ImageType entity, stores the type of the image"
     )
 
-    image_type: Optional["ImageType"] = Relationship(back_populates="images")
+    
 
     timestamp: float = Field(description="Time of the image")
 

@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey
 from sqlalchemy import String, Float, Integer
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -13,14 +13,12 @@ class CommonPoint(BaseSQLModel, table=True):
     __tablename__ = "common_point"
 
     id_fusion: int = Field(
-        sa_column=Column("id_fusion", Integer, nullable=False),
-        primary_key=True,
-        foreign_key="fusion.id"
+        sa_column=Column("id_fusion", Integer, ForeignKey("fusion.id"), nullable=False),
+        primary_key=True
     )
 
     camera_id: int = Field(
-        sa_column=Column("camera", Integer, nullable=False),
-        foreign_key="camera.id",
+        sa_column=Column("camera", Integer, ForeignKey("camera.id"), nullable=False),
         primary_key=True
     )
 

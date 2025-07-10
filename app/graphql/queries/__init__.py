@@ -1,15 +1,26 @@
+# app/graphql/queries/__init__.py
+
+"""
+Barrel file for exporting and combining all GraphQL query resolvers.
+
+This module imports all the individual query classes (e.g., StationQuery,
+CameraQuery) and composes them into a single root `Query` type. This
+pattern allows for a modular and organized schema definition.
+"""
+
 import strawberry
-from .station_query import StationQuery
-from .camera_query import CameraQuery
-from .sensor_query import SensorQuery
+
+from .station_queries import StationQuery
+from .camera_queries import CameraQuery
+from .sensor_queries import SensorQuery
 
 @strawberry.type
 class Query(StationQuery, CameraQuery, SensorQuery):
     """
-    The root Query type for the GraphQL schema.
-
-    This class combines all available queries by inheriting from the individual
-    query classes. Strawberry automatically merges the fields from all parent classes into this single type,
-    making them available at the root of the GraphQL query entry point.
+    Root query type for the GraphQL schema.
+    
+    Inherits all query fields from the individual model query classes.
     """
     pass
+
+__all__ = ["Query"]

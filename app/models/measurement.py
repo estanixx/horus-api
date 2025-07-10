@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey
 from sqlalchemy import Integer, String, DECIMAL
 from typing import Optional, List
 from typing import TYPE_CHECKING
@@ -16,13 +16,11 @@ class Measurement(BaseSQLModel, table=True):
 
 
     station_id: int = Field(
-        foreign_key="station.id",
-        sa_column=Column("station_id", Integer, nullable=False)
+        sa_column=Column("station_id", Integer, ForeignKey("station.id"), nullable=False)
     )
 
     measurement_type_id: int = Field(
-        sa_column=Column("type", Integer, nullable=False),
-        foreign_key="measurement_type.id"
+        sa_column=Column("type", Integer, ForeignKey("measurement_type.id"), nullable=False),
     )
 
     timestamp: float = Field(

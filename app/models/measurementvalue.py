@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey
 from sqlalchemy import Integer, String, Float
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -11,9 +11,9 @@ class MeasurementValue(BaseSQLModel, table=True):
     __tablename__ = "measurement_value"
 
     measurement_id: int = Field(
-        sa_column=Column("measurement_id", Integer, nullable=False,
+        sa_column=Column("measurement_id", Integer, ForeignKey("measurement.id"),  nullable=False,
         primary_key=True),
-        foreign_key="measurement.id"
+        
     )
 
 

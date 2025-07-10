@@ -16,7 +16,7 @@ class Calibration(BaseSQLModel, table=True):
     __tablename__ = "calibration"
 
     camera_id: int = Field(
-        sa_column=Column("camera", Integer, ForeignKey("camera.id"), nullable=False)
+        sa_column=Column("camera_id", Integer, ForeignKey("camera.id"), nullable=False)
     )
 
     timestamp: float = Field(

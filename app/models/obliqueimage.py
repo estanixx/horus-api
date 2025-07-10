@@ -1,19 +1,21 @@
 # app/models/obliqueimage.py
 
-from sqlmodel import Field, Relationship, Column
+from sqlmodel import Field, Relationship, Column, ForeignKey
 from sqlalchemy import Integer
 from typing import Optional, TYPE_CHECKING
 from .image import Image
 if TYPE_CHECKING:
     from .camera import Camera
+    from .imagetype import ImageType
 
 class ObliqueImage(Image, table=True):
     __tablename__ = "oblique_image"
 
     camera_id: int = Field(
-        sa_column=Column("camera", Integer, nullable=False),
-        primary_key=False
+        sa_column=Column("camera_id", Integer, ForeignKey('camera.id'), nullable=False),
     )
+    
+    image_type: Optional["ImageType"] = Relationship(back_populates="oblique_images")
 
     # Relationships (opcional y condicional)
     camera: Optional["Camera"] = Relationship(
