@@ -8,7 +8,6 @@ if TYPE_CHECKING:
     from .fusion import Fusion
     from .fusionvalue import FusionValue
 
-
 class FusionParameter(BaseSQLModel, table=True):
     __tablename__ = "fusion_parameter"
 

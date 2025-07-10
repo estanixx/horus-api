@@ -1,5 +1,5 @@
-from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String, DECIMAL, Integer, ForeignKey
+from sqlmodel import Field, Relationship, Column
+from sqlalchemy import DECIMAL, Integer, ForeignKey
 from typing import Optional, List
 from typing import TYPE_CHECKING
 from app.models.base import BaseSQLModel
@@ -13,16 +13,13 @@ if TYPE_CHECKING:
     
 
 class Calibration(BaseSQLModel, table=True):
-    __tablename__ = "calibration"
 
     camera_id: int = Field(
         sa_column=Column("camera_id", Integer, ForeignKey("camera.id"), nullable=False)
     )
-
     timestamp: float = Field(
         sa_column=Column("timestamp", DECIMAL(17, 10), nullable=False)
     )
-
     resolution: float
     EMCuv: Optional[float] = None
     EMCxy: Optional[float] = None
@@ -32,7 +29,6 @@ class Calibration(BaseSQLModel, table=True):
     camera: Optional["Camera"] = Relationship(
         back_populates="calibrations"
     )
-
     rectified_images: List["RectifiedImage"] = Relationship(back_populates="calibration")
     picked_gcps: list["PickedGCP"] = Relationship(back_populates="calibration")
     parameters: list["CalibrationParameter"] = Relationship(back_populates="calibration")

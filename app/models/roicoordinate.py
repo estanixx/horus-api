@@ -3,14 +3,13 @@ from sqlalchemy import Integer, ForeignKey
 from typing import Optional
 from typing import TYPE_CHECKING
 from app.models.base import BaseSQLModel
+
 if TYPE_CHECKING:
     from .roi import ROI
 
 
 class ROICoordinate(BaseSQLModel, table=True):
-    __tablename__ = "roi_coordinate"
-
-
+   
     roi_id: int = Field(
         sa_column=Column(
             "roi_id",
@@ -20,7 +19,6 @@ class ROICoordinate(BaseSQLModel, table=True):
             primary_key=True
         )
     )
-
     u: float
     v: float
 

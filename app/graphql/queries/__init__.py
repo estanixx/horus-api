@@ -13,9 +13,10 @@ import strawberry
 from .station_queries import StationQuery
 from .camera_queries import CameraQuery
 from .sensor_queries import SensorQuery
+from .image_queries import ImageQuery
 
 @strawberry.type
-class Query(StationQuery, CameraQuery, SensorQuery):
+class Query(StationQuery, CameraQuery, SensorQuery, ImageQuery):
     """
     Root query type for the GraphQL schema.
     

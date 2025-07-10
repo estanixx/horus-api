@@ -26,7 +26,6 @@ class SensorService:
         statement = (
             select(Sensor)
             .where(Sensor.id == sensor_id)
-            .options(selectinload(Sensor.station))
         )
         result = await db.exec(statement)
         return result.first()

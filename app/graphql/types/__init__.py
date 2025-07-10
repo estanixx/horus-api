@@ -1,3 +1,4 @@
+
 # app/graphql/types/__init__.py
 
 """
@@ -11,6 +12,8 @@ from .common import PageInfo, Edge, Connection
 from .station import StationType, StationCreateInput, StationUpdateInput
 from .camera import CameraType, CameraCreateInput, CameraUpdateInput
 from .sensor import SensorType, SensorCreateInput, SensorUpdateInput
+from .image import ImageType, ImageCreateInput, ImageUpdateInput
+
 
 __all__ = [
     "PageInfo",
@@ -25,4 +28,7 @@ __all__ = [
     "SensorType",
     "SensorCreateInput",
     "SensorUpdateInput",
+    "ImageType",
+    "ImageCreateInput",
+    "ImageUpdateInput"
 ]

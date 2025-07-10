@@ -1,14 +1,14 @@
-from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey
-from sqlalchemy import Integer, String, Float
+from sqlmodel import Field, Relationship, Column, ForeignKey
+from sqlalchemy import Integer, Float
 from typing import Optional
 from typing import TYPE_CHECKING
 from app.models.base import BaseSQLModel
+
 if TYPE_CHECKING:
     from .measurement import Measurement
 
 
 class MeasurementValue(BaseSQLModel, table=True):
-    __tablename__ = "measurement_value"
 
     measurement_id: int = Field(
         sa_column=Column("measurement_id", Integer, ForeignKey("measurement.id"),  nullable=False,

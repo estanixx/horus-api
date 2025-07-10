@@ -27,7 +27,6 @@ class CameraService:
         statement = (
             select(Camera)
             .where(Camera.id == camera_id)
-            .options(selectinload(Camera.station))
         )
         result = await db.exec(statement)
         return result.first()

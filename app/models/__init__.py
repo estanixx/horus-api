@@ -5,7 +5,7 @@ from .image import Image
 from .imagetype import ImageType
 from .mergedimage import MergedImage
 from .obliqueimage import ObliqueImage
-from . rectifiedimage import RectifiedImage
+from .rectifiedimage import RectifiedImage
 from .sensor import Sensor
 from .measurementtype import MeasurementType
 from .measurement import Measurement

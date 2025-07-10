@@ -10,28 +10,23 @@ if TYPE_CHECKING:
 
 
 class CommonPoint(BaseSQLModel, table=True):
-    __tablename__ = "common_point"
 
     id_fusion: int = Field(
         sa_column=Column("id_fusion", Integer, ForeignKey("fusion.id"), nullable=False),
         primary_key=True
     )
-
     camera_id: int = Field(
         sa_column=Column("camera", Integer, ForeignKey("camera.id"), nullable=False),
         primary_key=True
     )
-
     name: str = Field(
         sa_column=Column("name", String, nullable=False),
         primary_key=True
     )
-
     u: float
     v: float
 
     fusion: Optional["Fusion"] = Relationship(back_populates="common_points")
-
     camera: Optional["Camera"] = Relationship(
         back_populates="common_points"
     )

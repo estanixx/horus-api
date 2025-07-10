@@ -1,6 +1,5 @@
-# app/models/rectifiedimage.py
-from sqlmodel import SQLModel, Field, Relationship, Column
-from sqlalchemy import String, ForeignKey, Integer
+from sqlmodel import Field, Relationship, Column, ForeignKey
+from sqlalchemy import Integer
 from typing import Optional
 from typing import TYPE_CHECKING
 from .image import Image
@@ -11,7 +10,6 @@ if TYPE_CHECKING:
 
 
 class RectifiedImage(Image, table=True):
-    __tablename__ = "rectified_image"
 
     image_type: Optional["ImageType"] = Relationship(back_populates="rectified_images")
     
