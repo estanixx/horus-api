@@ -1,19 +1,13 @@
-# app/graphql/services/sensor_service.py
-
-"""
-Service layer for handling business logic related to Sensor models.
-"""
-
 from typing import List, Optional, Tuple
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
-from sqlalchemy.orm import selectinload
 from sqlalchemy import func
 import strawberry
 from app.models import Sensor
 from typing import TYPE_CHECKING, Annotated
+
 if TYPE_CHECKING:
-    from app.graphql.types import SensorCreateInput, SensorUpdateInput
+    from app.graphql.types import SensorCreateInput
 
 class SensorService:
     """Service class for sensor-related operations."""

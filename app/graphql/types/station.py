@@ -1,17 +1,9 @@
-# app/graphql/types/station.py
-
-"""
-GraphQL types for the Station model.
-
-This module defines the main `StationType` for representing station data in
-the GraphQL schema. It also includes `Strawberry.input` types for creating
-and updating stations, which are used in mutations.
-"""
 from datetime import datetime
 import strawberry
 from typing import List, Optional, Annotated, TYPE_CHECKING
 from strawberry.types import Info
 from app.services import CameraService, SensorService
+
 if TYPE_CHECKING:
     from .camera import CameraType
     from .sensor import SensorType
@@ -36,13 +28,7 @@ class StationType:
     async def cameras(
         self, info: Info, skip: int = 0, limit: int = 20
     ) -> List[Annotated["CameraType", strawberry.lazy(".camera")]]:
-        """
-        Fetches a list of cameras associated with this station.
-        This resolver is executed only when the 'cameras' field is in a query.
-        """
-        # 'self' is the parent Station object
         db = info.context["db"]
-        # The service returns a tuple of (items, total_count), we only need the items.
         cameras, _ = await CameraService.get_for_station(
             db=db, station_id=self.id, skip=skip, limit=limit
         )
@@ -52,11 +38,6 @@ class StationType:
     async def sensors(
         self, info: Info, skip: int = 0, limit: int = 20
     ) -> List[Annotated["SensorType", strawberry.lazy(".sensor")]]:
-        """
-        Fetches a list of sensors associated with this station.
-        This resolver is executed only when the 'sensors' field is in a query.
-        """
-        # 'self' is the parent Station object
         db = info.context["db"]
         sensors, _ = await SensorService.get_for_station(
             db=db, station_id=self.id, skip=skip, limit=limit

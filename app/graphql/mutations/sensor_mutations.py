@@ -1,13 +1,6 @@
-# app/graphql/mutations/sensor_mutations.py
-
-"""
-GraphQL mutation resolvers for the Sensor model.
-"""
-
 import strawberry
 from strawberry.types import Info
 from typing import Optional
-
 from app.graphql.types import SensorType, SensorCreateInput, SensorUpdateInput
 from app.services import SensorService, StationService
 

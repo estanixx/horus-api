@@ -1,11 +1,3 @@
-# app/graphql/types/sensor.py
-
-"""
-GraphQL types for the Sensor model.
-
-Defines the `SensorType` for representing sensor data and includes input
-types for creation and update mutations.
-"""
 from datetime import datetime
 import strawberry
 from typing import Optional, Annotated, TYPE_CHECKING

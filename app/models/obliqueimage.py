@@ -1,5 +1,3 @@
-# app/models/obliqueimage.py
-
 from sqlmodel import Field, Relationship, Column, ForeignKey
 from sqlalchemy import Integer
 from typing import Optional, TYPE_CHECKING
@@ -16,7 +14,6 @@ class ObliqueImage(Image, table=True):
     )
     
     image_type: Optional["ImageType"] = Relationship(back_populates="oblique_images")
-
     camera: Optional["Camera"] = Relationship(
         back_populates="oblique_images"
     )

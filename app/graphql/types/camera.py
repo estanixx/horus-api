@@ -1,15 +1,8 @@
-# app/graphql/types/camera.py
-
-"""
-GraphQL types for the Camera model.
-
-Defines the `CameraType` for representing camera data and includes input
-types for creation and update mutations.
-"""
 from datetime import datetime
 import strawberry
 from typing import Optional, Annotated
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from .station import StationType
 

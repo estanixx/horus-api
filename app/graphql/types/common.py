@@ -1,5 +1,3 @@
-# app/graphql/types/common.py
-
 """
 Defines common, reusable GraphQL types, such as for pagination.
 
