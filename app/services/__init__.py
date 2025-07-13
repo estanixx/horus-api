@@ -4,6 +4,7 @@ from .sensor_service import SensorService
 from .image_service import ImageService
 from .obliqueimage_service import ObliqueImageService
 from .rectifiedimage_service import RectifiedImageService
+from .mergedimage_service import MergedImageService
 
 __all__ = [
     "StationService",
@@ -11,5 +12,6 @@ __all__ = [
     "SensorService", 
     "ImageService", 
     "ObliqueImageService", 
-    "RectifiedImageService"
+    "RectifiedImageService", 
+    "MergedImageService"
 ]

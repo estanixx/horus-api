@@ -5,6 +5,7 @@ from .sensor import SensorType, SensorCreateInput, SensorUpdateInput
 from .image import ImageType, ImageCreateInput, ImageUpdateInput
 from .obliqueimage import ObliqueImageType, ObliqueImageCreateInput, ObliqueImageUpdateInput
 from .rectifiedimage import RectifiedImageType, RectifiedImageCreateInput, RectifiedImageUpdateInput
+from .mergedimage import MergedImageType, MergedImageCreateInput, MergedImageUpdateInput
 
 __all__ = [
     "PageInfo",
@@ -27,5 +28,8 @@ __all__ = [
     "ObliqueImageUpdateInput",
     "RectifiedImageType",
     "RectifiedImageCreateInput",
-    "RectifiedImageUpdateInput"
+    "RectifiedImageUpdateInput",
+    "MergedImageType",
+    "MergedImageCreateInput",
+    "MergedImageUpdateInput"
 ]
