@@ -3,7 +3,8 @@ from .station import StationType, StationCreateInput, StationUpdateInput
 from .camera import CameraType, CameraCreateInput, CameraUpdateInput
 from .sensor import SensorType, SensorCreateInput, SensorUpdateInput
 from .image import ImageType, ImageCreateInput, ImageUpdateInput
-from obliqueimage import ObliqueImageType, ObliqueImageCreateInput, ObliqueImageUpdateInput
+from .obliqueimage import ObliqueImageType, ObliqueImageCreateInput, ObliqueImageUpdateInput
+from .rectifiedimage import RectifiedImageType, RectifiedImageCreateInput, RectifiedImageUpdateInput
 
 __all__ = [
     "PageInfo",
@@ -23,5 +24,8 @@ __all__ = [
     "ImageUpdateInput",
     "ObliqueImageType",
     "ObliqueImageCreateInput",
-    "ObliqueImageUpdateInput"
+    "ObliqueImageUpdateInput",
+    "RectifiedImageType",
+    "RectifiedImageCreateInput",
+    "RectifiedImageUpdateInput"
 ]

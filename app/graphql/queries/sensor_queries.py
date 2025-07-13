@@ -1,12 +1,3 @@
-# app/graphql/queries/sensor_queries.py
-
-"""
-GraphQL query resolvers for the Sensor model.
-
-Defines queries for fetching sensors, including filtering by station and
-providing total counts.
-"""
-
 import strawberry
 from strawberry.types import Info
 from typing import Optional

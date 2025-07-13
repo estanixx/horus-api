@@ -6,16 +6,16 @@ from .image import Image
 
 if TYPE_CHECKING:
     from .calibration import Calibration
-    from .imagetype import ImageType
-
+    
 
 class RectifiedImage(Image, table=True):
-
-    image_type: Optional["ImageType"] = Relationship(back_populates="rectified_images")
     
+    image_id: int = Field(sa_column=Column("image_id", Integer, ForeignKey("image.id"),  nullable=True))
     calibration_id: int = Field(
-        sa_column=Column("calibration_id", Integer, ForeignKey("calibration.id"),  nullable=False),
+        sa_column=Column("calibration_id", Integer, ForeignKey("calibration.id"),  nullable=True),
     )
-
+    
+    
     calibration: Optional["Calibration"] = Relationship(back_populates="rectified_images")
+  
     

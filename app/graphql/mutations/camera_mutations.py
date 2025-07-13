@@ -1,9 +1,3 @@
-# app/graphql/mutations/camera_mutations.py
-
-"""
-GraphQL mutation resolvers for the Camera model.
-"""
-
 import strawberry
 from strawberry.types import Info
 from typing import Optional
