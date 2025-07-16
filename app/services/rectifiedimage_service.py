@@ -2,93 +2,58 @@ from typing import List, Optional, Tuple
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy import func
-import strawberry
 from app.models import RectifiedImage
-from typing import TYPE_CHECKING, Annotated
-
-if TYPE_CHECKING:
-    from app.graphql.types import RectifiedImageCreateInput, RectifiedImageUpdateInput
 
 class RectifiedImageService:
-
     @staticmethod
-    async def get_rectifiedimage_by_id(db: AsyncSession, rectifiedimage_id: int) -> Optional[RectifiedImage]:
-
-        statement = (
-            select(RectifiedImage)
-            .where(RectifiedImage.id == rectifiedimage_id)
-        )
-        result = await db.exec(statement)
-        return result.first()
-
-
-    @staticmethod
-    async def get_rectifiedimages_for_image(
-        db: AsyncSession, image_id: int, skip: int, limit: int
-    ) -> Tuple[List[RectifiedImage], int]:
-        statement = (
-            select(RectifiedImage)
-            .where(RectifiedImage.image_id == image_id)
-            .offset(skip)
-            .limit(limit)
-        )
-        result = await db.exec(statement)
-        rectifiedimages = result.all()
-        
-        count_statement = select(func.count()).select_from(RectifiedImage).where(RectifiedImage.image_id == image_id)
-        total_count = (await db.exec(count_statement)).one()
-        
-        return rectifiedimages, total_count
-
-
-    @staticmethod
-    async def get_all_paginated(
-        db: AsyncSession, skip: int, limit: int
-    ) -> Tuple[List[RectifiedImage], int]:
-       
+    async def get_all_paginated(db: AsyncSession, skip: int, limit: int) -> Tuple[List[RectifiedImage], int]:
         statement = select(RectifiedImage).offset(skip).limit(limit)
         result = await db.exec(statement)
-        rectifiedimages = result.all()
-
+        data = result.all()
+        
         count_statement = select(func.count()).select_from(RectifiedImage)
         total_count = (await db.exec(count_statement)).one()
-
-        return rectifiedimages, total_count
-
-
-    @staticmethod
-    async def create(db: AsyncSession, data:  Annotated["RectifiedImageCreateInput", strawberry.lazy('app.graphql.types')]) -> RectifiedImage: 
-        new_model = RectifiedImage(**strawberry.asdict(data))
         
-        db.add(new_model)
-        await db.commit()
-        await db.refresh(new_model)
-        return new_model
-
+        return data, total_count
 
     @staticmethod
-    async def update(db: AsyncSession, rectifiedimage_id: int, data:  Annotated["RectifiedImageUpdateInput", strawberry.lazy('app.graphql.types')]) -> Optional[RectifiedImage]:
-        rectifiedImage = await db.get(RectifiedImage, rectifiedimage_id)
-        if not rectifiedImage:
-            return None
+    async def get_by_id(db: AsyncSession, image_id: int) -> Optional[RectifiedImage]:
+        return await db.get(RectifiedImage, image_id)
 
-        update_data = strawberry.asdict(data)
+    @staticmethod
+    async def get_for_calibration(db: AsyncSession, calibration_id: int, skip: int, limit: int) -> Tuple[List[RectifiedImage], int]:
+        statement = select(RectifiedImage).where(RectifiedImage.calibration_id == calibration_id).offset(skip).limit(limit)
+        result = await db.exec(statement)
+        data = result.all()
+
+        count_statement = select(func.count()).select_from(RectifiedImage).where(RectifiedImage.calibration_id == calibration_id)
+        total_count = (await db.exec(count_statement)).one()
+        
+        return data, total_count
+
+    @staticmethod
+    async def create(db: AsyncSession, data: RectifiedImage) -> RectifiedImage:
+        db.add(data)
+        await db.commit()
+        await db.refresh(data)
+        return data
+
+    @staticmethod
+    async def update(db: AsyncSession, image_id: int, update_data: dict) -> Optional[RectifiedImage]:
+        item = await db.get(RectifiedImage, image_id)
+        if not item:
+            return None
         for key, value in update_data.items():
-            setattr(rectifiedImage, key, value)
-
-        db.add(rectifiedImage)
+            setattr(item, key, value)
+        db.add(item)
         await db.commit()
-        await db.refresh(rectifiedImage)
-        return rectifiedImage
-
+        await db.refresh(item)
+        return item
 
     @staticmethod
-    async def delete(db: AsyncSession, rectifiedimage_id: int) -> Optional[RectifiedImage]:
-     
-        rectifiedimage = await db.get(RectifiedImage, rectifiedimage_id)
-        if not rectifiedimage:
-            return None
-        
-        await db.delete(rectifiedimage)
-        await db.commit()
-        return rectifiedimage
+    async def delete(db: AsyncSession, image_id: int) -> Optional[RectifiedImage]:
+        item = await db.get(RectifiedImage, image_id)
+        if item:
+            await db.delete(item)
+            await db.commit()
+        return item

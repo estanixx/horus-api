@@ -1,9 +1,9 @@
 import strawberry
 from strawberry.types import Info
 from typing import Optional
-
 from app.graphql.types import CameraType, CameraCreateInput, CameraUpdateInput
 from app.services import CameraService, StationService
+from app.models import Camera
 
 @strawberry.type
 class CameraMutation:
@@ -11,29 +11,27 @@ class CameraMutation:
     async def create_camera(self, info: Info, input: CameraCreateInput) -> CameraType:
         """Creates a new camera and associates it with a station."""
         db = info.context["db"]
-        # Ensure the station exists before creating a camera for it
-        if not await StationService.get_by_id(db, input.station_id):
-             raise ValueError(f"Station with ID {input.station_id} not found.")
+        if not await StationService.get_by_id(db, station_id=input.station_id):
+            raise ValueError(f"Station with ID {input.station_id} not found.")
         
-        new_camera = await CameraService.create(db, data=input)
-        return CameraType(**new_camera.dict())
+        new_item = await CameraService.create(db, Camera(**input.__dict__))
+        return CameraType(**new_item.dict())
 
     @strawberry.mutation
-    async def update_camera(
-        self, info: Info, id: int, input: CameraUpdateInput
-    ) -> Optional[CameraType]:
+    async def update_camera(self, info: Info, id: int, input: CameraUpdateInput) -> Optional[CameraType]:
         """Updates an existing camera by its ID."""
         db = info.context["db"]
-        updated_camera = await CameraService.update(db, camera_id=id, data=input)
-        if not updated_camera:
+        update_data = {k: v for k, v in input.__dict__.items() if v is not None}
+        updated_item = await CameraService.update(db, camera_id=id, update_data=update_data)
+        if not updated_item:
             raise ValueError(f"Camera with ID {id} not found.")
-        return CameraType(**updated_camera.dict())
+        return CameraType(**updated_item.dict())
 
     @strawberry.mutation
     async def delete_camera(self, info: Info, id: int) -> CameraType:
         """Deletes a camera by its ID."""
         db = info.context["db"]
-        deleted_camera = await CameraService.delete(db, camera_id=id)
-        if not deleted_camera:
+        deleted_item = await CameraService.delete(db, camera_id=id)
+        if not deleted_item:
             raise ValueError(f"Camera with ID {id} not found.")
-        return CameraType(**deleted_camera.dict())
+        return CameraType(**deleted_item.dict())

@@ -4,7 +4,7 @@ from app.models.base import BaseSQLModel
 
 if TYPE_CHECKING:
     from .imagetype import ImageType
-class Image(BaseSQLModel, table=True):
+class Image(BaseSQLModel, table=False):
 
     filename: str = Field(
         unique=True,
