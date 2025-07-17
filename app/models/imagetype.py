@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from .rectifiedimage import RectifiedImage 
 
 class ImageType(BaseSQLModel, table=True):
+    __tablename__ = 'image_type'
     name: str = Field(description="The name of the type")
     description: Optional[str] = Field(description="A brief description of the type")
 

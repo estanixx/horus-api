@@ -18,7 +18,7 @@ class FusionQuery:
         """Fetches a paginated list of all fusions."""
         db = info.context["db"]
         items, total = await FusionService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=FusionType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

@@ -9,6 +9,7 @@ if TYPE_CHECKING:
 
 
 class ROICoordinate(BaseSQLModel, table=True):
+    __tablename__ = 'roi_coordinate'
    
     roi_id: int = Field(
         sa_column=Column(

@@ -18,7 +18,7 @@ class ROICoordinateQuery:
         """Fetches a paginated list of all ROI coordinates."""
         db = info.context["db"]
         items, total = await ROICoordinateService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=ROICoordinateType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class ROICoordinateQuery:
         """Fetches coordinates for a specific ROI."""
         db = info.context["db"]
         items, total = await ROICoordinateService.get_for_roi(db, roi_id, skip, limit)
-        edges = [Edge(node=ROICoordinateType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

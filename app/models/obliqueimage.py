@@ -8,11 +8,14 @@ if TYPE_CHECKING:
     from .imagetype import ImageType
 
 class ObliqueImage(Image, table=True):
-
+    __tablename__ = 'oblique_image'
+    
     camera_id: int = Field(
         sa_column=Column("camera_id", Integer, ForeignKey('camera.id'), nullable=False),
     )
-    
+    image_type_id: Optional[int] = Field(
+        sa_column=Column("image_type_id", Integer, ForeignKey('image_type.id'), nullable=False),
+    )
     image_type: Optional["ImageType"] = Relationship(back_populates="oblique_images")
     camera: Optional["Camera"] = Relationship(
         back_populates="oblique_images"

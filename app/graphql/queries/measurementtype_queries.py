@@ -18,7 +18,7 @@ class MeasurementTypeQuery:
         """Fetches a paginated list of all measurement types."""
         db = info.context["db"]
         items, total = await MeasurementTypeService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=MeasurementTypeType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class MeasurementTypeQuery:
         """Fetches measurement types for a specific sensor."""
         db = info.context["db"]
         items, total = await MeasurementTypeService.get_for_sensor(db, sensor_id, skip, limit)
-        edges = [Edge(node=MeasurementTypeType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

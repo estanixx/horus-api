@@ -18,7 +18,7 @@ class AutomaticParamsQuery:
         """Fetches a paginated list of all AutomaticParams."""
         db = info.context["db"]
         items, total = await AutomaticParamsService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=AutomaticParamsType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class AutomaticParamsQuery:
         """Fetches a paginated list of AutomaticParams for a specific station."""
         db = info.context["db"]
         items, total = await AutomaticParamsService.get_for_station(db, station_id, skip, limit)
-        edges = [Edge(node=AutomaticParamsType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

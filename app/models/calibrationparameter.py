@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from .calibrationvalue import CalibrationValue
 
 class CalibrationParameter(BaseSQLModel, table=True):
-    
+    __tablename__ = 'calibration_parameter'
     calibration_id: int = Field(
         sa_column=Column("calibration_id", Integer, ForeignKey("calibration.id"), nullable=False),
     )

@@ -18,7 +18,7 @@ class CalibrationQuery:
         """Fetches a paginated list of all calibrations."""
         db = info.context["db"]
         items, total = await CalibrationService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=CalibrationType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class CalibrationQuery:
         """Fetches calibrations for a specific camera."""
         db = info.context["db"]
         items, total = await CalibrationService.get_for_camera(db, camera_id, skip, limit)
-        edges = [Edge(node=CalibrationType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

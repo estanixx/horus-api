@@ -18,7 +18,7 @@ class MeasurementQuery:
         """Fetches a paginated list of all measurements."""
         db = info.context["db"]
         items, total = await MeasurementService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=MeasurementType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class MeasurementQuery:
         """Fetches measurements for a specific station."""
         db = info.context["db"]
         items, total = await MeasurementService.get_for_station(db, station_id, skip, limit)
-        edges = [Edge(node=MeasurementType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -34,7 +34,7 @@ class MeasurementQuery:
         """Fetches measurements for a specific measurement type."""
         db = info.context["db"]
         items, total = await MeasurementService.get_for_measurement_type(db, measurement_type_id, skip, limit)
-        edges = [Edge(node=MeasurementType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

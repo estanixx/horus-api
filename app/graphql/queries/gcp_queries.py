@@ -18,7 +18,7 @@ class GCPQuery:
         """Fetches a paginated list of all GCPs."""
         db = info.context["db"]
         items, total = await GCPService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=GCPType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class GCPQuery:
         """Fetches a paginated list of GCPs for a specific station."""
         db = info.context["db"]
         items, total = await GCPService.get_for_station(db, station_id, skip, limit)
-        edges = [Edge(node=GCPType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

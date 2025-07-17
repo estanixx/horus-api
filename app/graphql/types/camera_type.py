@@ -18,11 +18,11 @@ class CameraType:
     created_at: datetime
     updated_at: datetime
     station_id: int
-    alias: str
-    port: int
-    description: Optional[str]
-    rtsp_url: str
-
+    reference: str
+    sizeX: int
+    sizeY: int
+    
+    
     station: Annotated["StationType", strawberry.lazy(".station_type")]
 
     @strawberry.field

@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from .fusionparameter import FusionParameter
 
 class FusionValue(TimestampsSQLModel, table=True):
+    __tablename__ = 'fusion_value'
 
     matrix_id: int = Field(
         sa_column=Column("matrix_id", Integer, ForeignKey("fusion_parameter.id"), nullable=False,

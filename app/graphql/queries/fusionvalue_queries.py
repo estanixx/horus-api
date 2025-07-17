@@ -18,7 +18,7 @@ class FusionValueQuery:
         """Fetches a paginated list of all fusion values."""
         db = info.context["db"]
         items, total = await FusionValueService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=FusionValueType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class FusionValueQuery:
         """Fetches fusion values for a specific fusion parameter (matrix)."""
         db = info.context["db"]
         items, total = await FusionValueService.get_for_parameter(db, matrix_id, skip, limit)
-        edges = [Edge(node=FusionValueType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

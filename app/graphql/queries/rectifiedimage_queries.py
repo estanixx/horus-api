@@ -18,7 +18,7 @@ class RectifiedImageQuery:
         """Fetches a paginated list of all rectified images."""
         db = info.context["db"]
         items, total = await RectifiedImageService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=RectifiedImageType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class RectifiedImageQuery:
         """Fetches rectified images for a specific calibration."""
         db = info.context["db"]
         items, total = await RectifiedImageService.get_for_calibration(db, calibration_id, skip, limit)
-        edges = [Edge(node=RectifiedImageType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
     
     @strawberry.field

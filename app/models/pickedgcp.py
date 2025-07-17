@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 
 
 class PickedGCP(BaseSQLModel, table=True):
+    __tablename__ = 'picked_gcp'
 
     calibration_id: int = Field(
         sa_column=Column(

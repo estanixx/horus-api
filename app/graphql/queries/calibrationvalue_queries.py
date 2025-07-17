@@ -18,7 +18,7 @@ class CalibrationValueQuery:
         """Fetches a paginated list of all calibration values."""
         db = info.context["db"]
         items, total = await CalibrationValueService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=CalibrationValueType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class CalibrationValueQuery:
         """Fetches calibration values for a specific calibration parameter."""
         db = info.context["db"]
         items, total = await CalibrationValueService.get_for_parameter(db, id_param, skip, limit)
-        edges = [Edge(node=CalibrationValueType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

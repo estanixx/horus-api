@@ -18,7 +18,7 @@ class MergedImageQuery:
         """Fetches a paginated list of all merged images."""
         db = info.context["db"]
         items, total = await MergedImageService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=MergedImageType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class MergedImageQuery:
         """Fetches merged images for a specific fusion."""
         db = info.context["db"]
         items, total = await MergedImageService.get_for_fusion(db, fusion_id, skip, limit)
-        edges = [Edge(node=MergedImageType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
     
     @strawberry.field

@@ -18,7 +18,7 @@ class ImageTypeQuery:
         """Fetches a paginated list of all image types."""
         db = info.context["db"]
         items, total = await ImageTypeService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=ImageTypeType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

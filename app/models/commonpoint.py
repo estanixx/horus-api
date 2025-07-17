@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 
 
 class CommonPoint(BaseSQLModel, table=True):
+    __tablename__ = 'common_point'
 
     id_fusion: int = Field(
         sa_column=Column("id_fusion", Integer, ForeignKey("fusion.id"), nullable=False),

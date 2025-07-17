@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from .station import Station
 
 class AutomaticParams(BaseSQLModel, table=True):
-   
+    __tablename__ = 'automatic_params'
     station_id: str = Field(
         sa_column=Column("station_id", Integer, ForeignKey("station.id"), nullable=False),
     )

@@ -18,7 +18,7 @@ class PickedGCPQuery:
         """Fetches a paginated list of all PickedGCPs."""
         db = info.context["db"]
         items, total = await PickedGCPService.get_all_paginated(db, skip, limit)
-        edges = [Edge(node=PickedGCPType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -26,7 +26,7 @@ class PickedGCPQuery:
         """Fetches PickedGCPs for a specific calibration."""
         db = info.context["db"]
         items, total = await PickedGCPService.get_for_calibration(db, calibration_id, skip, limit)
-        edges = [Edge(node=PickedGCPType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field
@@ -34,7 +34,7 @@ class PickedGCPQuery:
         """Fetches PickedGCPs for a specific GCP."""
         db = info.context["db"]
         items, total = await PickedGCPService.get_for_gcp(db, gcp_id, skip, limit)
-        edges = [Edge(node=PickedGCPType(**item.dict()), cursor=str(skip + i)) for i, item in enumerate(items)]
+        edges = [Edge(node=item, cursor=str(skip + i)) for i, item in enumerate(items)]
         return Connection(total_count=total, edges=edges, page_info=PageInfo.from_skip_limit(skip, limit, total))
 
     @strawberry.field

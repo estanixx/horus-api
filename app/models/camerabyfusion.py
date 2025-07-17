@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from .camera import Camera
 
 class CameraByFusion(BaseSQLModel, table=True):
-
+    __tablename__ = 'camera_fusion'
     fusion_id: int = Field(
         sa_column=Column("fusion_id", Integer, ForeignKey("fusion.id"), nullable=False, primary_key=True),
     )

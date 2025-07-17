@@ -9,6 +9,7 @@ if TYPE_CHECKING:
 
 
 class MeasurementValue(BaseSQLModel, table=True):
+    __tablename__ = 'measurement_value'
 
     measurement_id: int = Field(
         sa_column=Column("measurement_id", Integer, ForeignKey("measurement.id"),  nullable=False,
