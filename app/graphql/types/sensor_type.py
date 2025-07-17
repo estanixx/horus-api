@@ -17,7 +17,7 @@ class SensorType:
     alias: str
     type: str
     description: Optional[str]
-    
+    isvirtual: bool
     station: Annotated["StationType", strawberry.lazy(".station_type")]
     
     @strawberry.field

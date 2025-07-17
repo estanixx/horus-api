@@ -11,7 +11,7 @@ class StationMutation:
     async def create_station(self, info: Info, input: StationCreateInput) -> StationType:
         """Creates a new station."""
         db = info.context["db"]
-        new_item = await StationService.create(db, Station(**input.__dict__))
+        new_item = await StationService.create(db, input)
         return StationType(**new_item.dict())
 
     @strawberry.mutation

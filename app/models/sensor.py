@@ -45,7 +45,7 @@ class Sensor(BaseSQLModel, table=True):
     x: float = Field(description="Sensor X coordinate in a local reference system.")
     y: float = Field(description="Sensor Y coordinate in a local reference system.")
     z: float = Field(description="Sensor Z coordinate (elevation) in a local reference system.")
-    is_virtual: bool = Field(default=False, description="Indicates whether the sensor is virtual or physical.")
+    isvirtual: bool = Field(default=False, description="Indicates whether the sensor is virtual or physical.")
     description: Optional[str] = Field(
         default=None,
         description="Optional sensor description."
